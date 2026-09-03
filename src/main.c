@@ -94,9 +94,10 @@ static int Init( FILE** const ppxDebugFile )
    LOGPRINT_TimeStamp();
    LOGPRINT_Printf( "\n" );
    LOGPRINT_Printf( "-------------------------------------------------\n" );
-   LOGPRINT_Printf( "HMS Networks\n" );
+   LOGPRINT_Printf( "HMS Industrial Networks\n" );
    LOGPRINT_Printf( "Anybus CompactCom Driver API\n" );
-   LOGPRINT_Printf( "Example Application: Raspberry Pi\n" );
+   LOGPRINT_Printf( "Raspberry Pi example port \n" );
+   LOGPRINT_Printf( "Press 'q' to quit.\n" );
    LOGPRINT_Printf( "\n" );
 
    if( !vSetRawConsoleMode( true ) )
@@ -108,7 +109,7 @@ static int Init( FILE** const ppxDebugFile )
    /*
    ** Function to initialize CompactCom-related systems.
    ** Note: This function in not required to call unless
-   ** ABCC_HAL_HwInit() contain anything.
+   ** ABCC_HAL_HwInit() contains anything.
    */
    if( ABCC_API_Init() != ABCC_EC_NO_ERROR )
    {
@@ -136,10 +137,6 @@ static bool HandleInput( int* const pxReturnVal )
          if( abConsoleInput[ i ] == 'q' || abConsoleInput[ i ] == 'Q' )
          {
             return( false );
-         }
-         else if(abConsoleInput[ i ] == 't' || abConsoleInput[ i ] == 'T')
-         {
-            ABCC_API_SelectFirmware( ABCC_API_NW_TYPE_PROFINET, NULL );
          }
       }
    }
