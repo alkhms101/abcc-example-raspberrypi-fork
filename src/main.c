@@ -96,7 +96,7 @@ static int Init( FILE** const ppxDebugFile )
    LOGPRINT_Printf( "-------------------------------------------------\n" );
    LOGPRINT_Printf( "HMS Industrial Networks\n" );
    LOGPRINT_Printf( "Anybus CompactCom Driver API\n" );
-   LOGPRINT_Printf( "Raspberry Pi example port \n" );
+   LOGPRINT_Printf( "Raspberry Pi example port\n" );
    LOGPRINT_Printf( "Press 'q' to quit.\n" );
    LOGPRINT_Printf( "\n" );
 
@@ -218,7 +218,7 @@ int main()
    }
 
    LOGPRINT_Printf( "-------------------------------------------------\n" );
-   LOGPRINT_Printf( "Program ended at: " );
+   LOGPRINT_Printf( "Program ended at:" );
    LOGPRINT_TimeStamp();
    LOGPRINT_Printf( "\n" );
    LOGPRINT_Printf( "-------------------------------------------------\n" );
