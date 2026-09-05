@@ -81,10 +81,10 @@ static bool vSetRawConsoleMode( bool fGetSet )
 static int Init( FILE** const ppxDebugFile )
 {
    LOGPRINT_SetConsoleStream( stderr );
-   *ppxDebugFile = fopen( "log_file.txt", "a" );
+   *ppxDebugFile = fopen( "abcc_log.txt", "a" );
    if( *ppxDebugFile == NULL )
    {
-      fprintf( stderr, "failed to open log_file.txt\n" );
+      fprintf( stderr, "Failed to open abcc_log.txt\n" );
       exit( EXIT_FAILURE );
    }
    LOGPRINT_SetLogFileStream( *ppxDebugFile );
@@ -98,6 +98,7 @@ static int Init( FILE** const ppxDebugFile )
    LOGPRINT_Printf( "Anybus CompactCom Driver API\n" );
    LOGPRINT_Printf( "Raspberry Pi example port\n" );
    LOGPRINT_Printf( "Press 'q' to quit.\n" );
+   LOGPRINT_Printf( "This session is logged to 'abcc_log.txt'.\n" );
    LOGPRINT_Printf( "\n" );
 
    if( !vSetRawConsoleMode( true ) )
@@ -108,7 +109,7 @@ static int Init( FILE** const ppxDebugFile )
 
    /*
    ** Function to initialize CompactCom-related systems.
-   ** Note: This function in not required to call unless
+   ** Note: Calling this function is only required when
    ** ABCC_HAL_HwInit() contains anything.
    */
    if( ABCC_API_Init() != ABCC_EC_NO_ERROR )
@@ -173,7 +174,7 @@ void ABCC_API_CbfUserInit( ABCC_API_NetworkType iNetworkType, ABCC_API_FwVersion
    return;
 }
 
-int main()
+int main( void )
 {
    FILE*    pxDebugFile = NULL;
    int      xReturnVal  = Init( &pxDebugFile );
