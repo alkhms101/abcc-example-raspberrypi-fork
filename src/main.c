@@ -85,6 +85,7 @@ static int Init( FILE** const ppxDebugFile )
    *ppxDebugFile = fopen( ABCC_LOG_FILE_NAME, "a" );
    if( *ppxDebugFile == NULL )
    {
+      xErrnoCopy = errno;
       fprintf( stderr, "Failed to open %s - %s\n", ABCC_LOG_FILE_NAME, ABCC_HAL_GetErrMsg( xErrnoCopy ) );
       exit( EXIT_FAILURE );
    }
@@ -99,7 +100,7 @@ static int Init( FILE** const ppxDebugFile )
    LOGPRINT_Printf( "Anybus CompactCom Driver API\n" );
    LOGPRINT_Printf( "Raspberry Pi example port\n" );
    LOGPRINT_Printf( "Press 'q' to quit.\n" );
-   LOGPRINT_Printf( "This session is logged to 'abcc_log.txt'.\n" );
+   LOGPRINT_Printf( "This session is logged to '%s'.\n", ABCC_LOG_FILE_NAME );
    LOGPRINT_Printf( "\n" );
 
    if( !vSetRawConsoleMode( true ) )
