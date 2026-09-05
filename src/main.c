@@ -50,9 +50,9 @@ static bool vSetRawConsoleMode( bool fGetSet )
          return( false );
       }
 
-      sRawTermIOSet.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
-      sRawTermIOSet.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-      sRawTermIOSet.c_cflag &= ~(CSIZE | PARENB);
+      sRawTermIOSet.c_iflag &= ~(tcflag_t)(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+      sRawTermIOSet.c_lflag &= ~(tcflag_t)(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+      sRawTermIOSet.c_cflag &= ~(tcflag_t)(CSIZE | PARENB);
       sRawTermIOSet.c_cflag |= CS8;
 
       sRawTermIOSet.c_cc[ VMIN ] = 0;
