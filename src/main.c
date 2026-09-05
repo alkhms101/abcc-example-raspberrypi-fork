@@ -81,6 +81,8 @@ static bool vSetRawConsoleMode( bool fGetSet )
 
 static int Init( FILE** const ppxDebugFile )
 {
+   int   xErrnoCopy;
+
    LOGPRINT_SetConsoleStream( stderr );
    *ppxDebugFile = fopen( ABCC_LOG_FILE_NAME, "a" );
    if( *ppxDebugFile == NULL )
