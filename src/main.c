@@ -27,6 +27,7 @@
 #include <unistd.h>
 
 #define CONSOLE_INPUT_BUFFER_SIZE     16
+#define ABCC_LOG_FILE_NAME "abcc_log.txt"
 
 static bool vSetRawConsoleMode( bool fGetSet )
 {
@@ -81,10 +82,10 @@ static bool vSetRawConsoleMode( bool fGetSet )
 static int Init( FILE** const ppxDebugFile )
 {
    LOGPRINT_SetConsoleStream( stderr );
-   *ppxDebugFile = fopen( "abcc_log.txt", "a" );
+   *ppxDebugFile = fopen( ABCC_LOG_FILE_NAME, "a" );
    if( *ppxDebugFile == NULL )
    {
-      fprintf( stderr, "Failed to open abcc_log.txt\n" );
+      fprintf( stderr, "Failed to open %s - %s\n", ABCC_LOG_FILE_NAME, ABCC_HAL_GetErrMsg( xErrnoCopy ) );
       exit( EXIT_FAILURE );
    }
    LOGPRINT_SetLogFileStream( *ppxDebugFile );
@@ -219,7 +220,7 @@ int main( void )
    }
 
    LOGPRINT_Printf( "-------------------------------------------------\n" );
-   LOGPRINT_Printf( "Program ended at:" );
+   LOGPRINT_Printf( "Program ended at: " );
    LOGPRINT_TimeStamp();
    LOGPRINT_Printf( "\n" );
    LOGPRINT_Printf( "-------------------------------------------------\n" );
