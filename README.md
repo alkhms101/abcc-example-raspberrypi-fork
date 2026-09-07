@@ -6,7 +6,7 @@ To enable easy evaluation and inspiration to [Anybus CompactCom](https://www.hms
 
 ## Prerequisites
 ### System
-- This example application shall be built for and ran in a Linux environment, like the Raspberry Pi OS.
+- This example application shall be built for and run in a Linux environment, like the Raspberry Pi OS.
 ### LIBGPIOD
 The library libgpiod-dev V2.x.x is required.
 

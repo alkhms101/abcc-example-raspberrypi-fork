@@ -27,6 +27,7 @@
 #include <unistd.h>
 
 #define CONSOLE_INPUT_BUFFER_SIZE     16
+#define ABCC_LOG_FILE_NAME "abcc_log.txt"
 
 static bool vSetRawConsoleMode( bool fGetSet )
 {
@@ -50,9 +51,9 @@ static bool vSetRawConsoleMode( bool fGetSet )
          return( false );
       }
 
-      sRawTermIOSet.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
-      sRawTermIOSet.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-      sRawTermIOSet.c_cflag &= ~(CSIZE | PARENB);
+      sRawTermIOSet.c_iflag &= ~(tcflag_t)(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+      sRawTermIOSet.c_lflag &= ~(tcflag_t)(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+      sRawTermIOSet.c_cflag &= ~(tcflag_t)(CSIZE | PARENB);
       sRawTermIOSet.c_cflag |= CS8;
 
       sRawTermIOSet.c_cc[ VMIN ] = 0;
@@ -80,11 +81,14 @@ static bool vSetRawConsoleMode( bool fGetSet )
 
 static int Init( FILE** const ppxDebugFile )
 {
+   int   xErrnoCopy;
+
    LOGPRINT_SetConsoleStream( stderr );
-   *ppxDebugFile = fopen( "log_file.txt", "a" );
+   *ppxDebugFile = fopen( ABCC_LOG_FILE_NAME, "a" );
    if( *ppxDebugFile == NULL )
    {
-      fprintf( stderr, "failed to open log_file.txt\n" );
+      xErrnoCopy = errno;
+      fprintf( stderr, "Failed to open %s - %s\n", ABCC_LOG_FILE_NAME, ABCC_HAL_GetErrMsg( xErrnoCopy ) );
       exit( EXIT_FAILURE );
    }
    LOGPRINT_SetLogFileStream( *ppxDebugFile );
@@ -94,9 +98,11 @@ static int Init( FILE** const ppxDebugFile )
    LOGPRINT_TimeStamp();
    LOGPRINT_Printf( "\n" );
    LOGPRINT_Printf( "-------------------------------------------------\n" );
-   LOGPRINT_Printf( "HMS Networks\n" );
+   LOGPRINT_Printf( "HMS Industrial Networks\n" );
    LOGPRINT_Printf( "Anybus CompactCom Driver API\n" );
-   LOGPRINT_Printf( "Example Application: Raspberry Pi\n" );
+   LOGPRINT_Printf( "Raspberry Pi example port\n" );
+   LOGPRINT_Printf( "Press 'q' to quit.\n" );
+   LOGPRINT_Printf( "This session is logged to '%s'.\n", ABCC_LOG_FILE_NAME );
    LOGPRINT_Printf( "\n" );
 
    if( !vSetRawConsoleMode( true ) )
@@ -107,8 +113,8 @@ static int Init( FILE** const ppxDebugFile )
 
    /*
    ** Function to initialize CompactCom-related systems.
-   ** Note: This function in not required to call unless
-   ** ABCC_HAL_HwInit() contain anything.
+   ** Note: Calling this function is only required when
+   ** ABCC_HAL_HwInit() contains anything.
    */
    if( ABCC_API_Init() != ABCC_EC_NO_ERROR )
    {
@@ -136,10 +142,6 @@ static bool HandleInput( int* const pxReturnVal )
          if( abConsoleInput[ i ] == 'q' || abConsoleInput[ i ] == 'Q' )
          {
             return( false );
-         }
-         else if(abConsoleInput[ i ] == 't' || abConsoleInput[ i ] == 'T')
-         {
-            ABCC_API_SelectFirmware( ABCC_API_NW_TYPE_PROFINET, NULL );
          }
       }
    }
@@ -176,7 +178,7 @@ void ABCC_API_CbfUserInit( ABCC_API_NetworkType iNetworkType, ABCC_API_FwVersion
    return;
 }
 
-int main()
+int main( void )
 {
    FILE*    pxDebugFile = NULL;
    int      xReturnVal  = Init( &pxDebugFile );

@@ -65,7 +65,7 @@ UINT16 ABCC_API_CbfGetNumAdi( void )
 ** Example - electric motor control loop
 **------------------------------------------------------------------------------
 */
-void ABCC_API_CbfCyclicalProcessing()
+void ABCC_API_CbfCyclicalProcessing( void )
 {
    if( ABCC_API_AnbState() == ABP_ANB_STATE_PROCESS_ACTIVE )
    {

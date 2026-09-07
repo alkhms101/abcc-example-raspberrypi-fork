@@ -18,7 +18,6 @@
 #include "abcc.h"
 #include "abcc_hardware_abstraction.h"
 #include "abcc_hardware_abstraction_spi.h"
-#include "abcc_hardware_abstraction_parallel.h"
 #include "abcc_hardware_abstraction_serial.h"
 #include "abcc_log.h"
 #include "abcc_api.h"
